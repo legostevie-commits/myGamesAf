@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Game Library - 270+ PC games sorted by genre</title>
+<meta name="description" content="A personal Steam game library sorted by genre and studio: RPG, Souls-like, Horror, Shooter, Strategy, Adventure and more.">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="My Game Library">
+<meta property="og:description" content="Browse my Steam collection by genre and studio.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#0b0c14;--fg:#f2f3fa;--mut:#9a9db8;--card:#151728}
+:root[data-theme="light"]{--bg:#f3f4fb;--fg:#14152a;--mut:#5d6080;--card:#fff}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f4fb;--fg:#14152a;--mut:#5d6080;--card:#fff}}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:drift 18s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(8vw,-10vh) scale(1.3)}}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 80px;animation:fade .6s both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}}
+h1{font-size:clamp(2.4rem,9vw,5.5rem);line-height:1;margin:.2em 0;letter-spacing:-.03em;font-weight:900;background:linear-gradient(90deg,#ff6a88,#ffb36a,#7aa2ff,#b07aff,#ff6a88);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 8s linear infinite}
+@keyframes flow{to{background-position:300% 0}}
+.sub{color:var(--mut);font-size:1.1rem;max-width:560px}
+.hero{padding:7vh 0 5vh}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.tile{position:relative;display:block;text-decoration:none;color:#fff;border-radius:18px;padding:22px;min-height:150px;overflow:hidden;opacity:0;animation:pop .6s forwards;transition:transform .25s,box-shadow .25s;box-shadow:0 8px 24px #0004}
+@keyframes pop{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1}}
+.tile:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 18px 40px #0007}
+.tile .em{font-size:2.6rem;display:block;transition:transform .3s}
+.tile:hover .em{transform:rotate(-12deg) scale(1.2)}
+.tile b{display:block;font-size:1.25rem;margin-top:10px}
+.tile span.n{opacity:.8;font-size:.9rem}
+.tile:after,.card:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#fff3 50%,transparent 65%);transform:translateX(-100%);transition:transform .7s}
+.tile:hover:after,.card:hover:after{transform:translateX(100%)}
+.back{display:inline-block;color:var(--mut);text-decoration:none;margin-bottom:10px;transition:color .2s,transform .2s}
+.back:hover{color:var(--fg);transform:translateX(-4px)}
+h2{margin:44px 0 14px;font-size:1.3rem;display:flex;align-items:center;gap:12px;opacity:0;transform:translateX(-20px);transition:.6s}
+h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--c),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+.card{position:relative;aspect-ratio:2/3;border-radius:14px;overflow:hidden;color:#fff;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transform:translateY(40px) scale(.95);transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .3s;box-shadow:0 6px 18px #0005}
+.in{opacity:1!important;transform:none!important}
+.card.in:hover{transform:perspective(600px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-6px) scale(1.04)!important;box-shadow:0 20px 40px #0008;transition:transform .1s,box-shadow .3s}
+.card .L{position:absolute;top:-8%;right:-6%;font-size:9rem;font-weight:900;opacity:.16;line-height:1}
+.card .t{position:relative;font-weight:800;font-size:1.02rem;line-height:1.15;text-shadow:0 2px 8px #0008}
+.card .g{position:relative;font-size:.7rem;opacity:.75;margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
+footer{margin-top:60px;color:var(--mut);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div class="bg" id="bg"></div>
+<main id="app"></main>
+<script>
+// [name, emoji, hue, data]  data: Company~Game|Game ^ Company~Game
+const G=[
+["RPG","⚔️",18,"Larian Studios~Divinity: Original Sin 2|Divinity: Original Sin (Classic)|Divinity: Original Sin Enhanced Edition|Divinity II: Developer's Cut|Divine Divinity|Beyond Divinity|Baldur's Gate 3^Beamdog / BioWare~Baldur's Gate: Enhanced Edition|Baldur's Gate II: Enhanced Edition^BioWare~Star Wars: Knights of the Old Republic^Obsidian~Pillars of Eternity^inXile~Torment: Tides of Numenera^n-Space~Sword Coast Legends^Bethesda~Skyrim Special Edition|Skyrim|Oblivion|Oblivion Remastered|Morrowind|Fallout 3 GOTY^CD Projekt RED~Cyberpunk 2077|The Witcher: Enhanced Edition^Piranha Bytes~Gothic 1 Classic|Gothic II: Gold Classic|Gothic 3|Gothic 3 Forsaken Gods|Risen|Risen 2: Dark Waters|ELEX|ELEX II^Spiders~GreedFall|Bound By Flame|Faery: Legends of Avalon^Warhorse Studios~Kingdom Come: Deliverance|Kingdom Come: Deliverance II^Other Studios~Enderal|Gothic 1 Remake|Archolos|Blackguards|Venetica|Outward|The Blood of Dawnwalker|Mount & Blade: Warband|Fable Anniversary|Gamedec|Demonicon|Lone Wolf HD Remastered|Legends of Aethereus"],
+["Action RPG","🗡️",350,"Grinding Gear Games~Path of Exile^Runic Games~Torchlight II^Iron Lore / THQ Nordic~Titan Quest|Titan Quest Anniversary Edition|Titan Quest: Immortal Throne^Haemimont~Victor Vran^Neocore~The Incredible Adventures of Van Helsing^Ironmace~Dark and Darker^Juvty~Wild Terra 2: New Lands^Supergiant Games~Hades^Snowblind~Lord of the Rings: War in the North^Capcom~Dragon's Dogma: Dark Arisen^Primal Game Studio~Mandragora^Digital Sun~Moonlighter"],
+["Souls-like","💀",270,"FromSoftware~Elden Ring|Elden Ring Nightreign|Dark Souls: Prepare To Die|Dark Souls II|Dark Souls III|Sekiro: Shadows Die Twice^Team Ninja~Nioh: Complete Edition|Nioh 2^Deck13 / CI Games~Lords Of The Fallen^Spiders~Steelrising^OverBorder~Thymesia^Cradle Games~Hellpoint^Gunfire Games~Remnant: From the Ashes"],
+["JRPG & Anime","🌸",330,"Square Enix~Final Fantasy XIV Online|Final Fantasy XIII|Final Fantasy XIII-2|The Last Remnant^PlatinumGames~NieR:Automata^Sandfall Interactive~Clair Obscur: Expedition 33^CyberConnect2~Dragon Ball Z: Kakarot"],
+["Action-Adventure","🧭",35,"Rockstar Games~Red Dead Redemption 2^Remedy~Control Ultimate Edition^Rocksteady~Batman: Arkham Asylum|Batman: Arkham City|Batman: Arkham Knight^WB Montreal~Batman: Arkham Origins^Monolith~Shadow of Mordor|Shadow of War^Avalanche Software~Hogwarts Legacy^Traveller's Tales~LEGO Harry Potter 1-4|LEGO Harry Potter 5-7^Crystal Dynamics~Tomb Raider^Arkane~Dishonored^MercurySteam~Castlevania: Lords of Shadow|Castlevania: Lords of Shadow 2^Starbreeze~Brothers: A Tale of Two Sons|Enclave^Pearl Abyss~Crimson Desert^Kylotonn~The Cursed Crusade^Hello Games~No Man's Sky"],
+["Shooter","🔫",5,"Valve~Team Fortress 2|Half-Life 2|Half-Life 2: Deathmatch|Half-Life 2: Episode One|Half-Life 2: Episode Two|Half-Life 2: Lost Coast|Half-Life Deathmatch: Source^id Software~DOOM Eternal^Respawn~Apex Legends^Blizzard~Overwatch^NetEase~Marvel Rivals^2K / Irrational~BioShock 2|BioShock 2 Remastered|BioShock Infinite^Digital Extremes~The Darkness II^Rebellion~Zombie Army 4: Dead War|Aliens vs. Predator^Tripwire~Red Orchestra: Ostfront 41-45^Sector D2~Project Wingman^Motive~Star Wars: Squadrons^Ghost Ship Games~Deep Rock Galactic"],
+["Horror","👻",285,"Capcom~Resident Evil|Resident Evil 0|Resident Evil 2|Resident Evil 3|Resident Evil 4|Resident Evil 5|Resident Evil 6|Resident Evil 7 Biohazard|Resident Evil Village|Resident Evil Revelations|Resident Evil Revelations 2|Resident Evil Resistance^Red Barrels~Outlast|Outlast 2^Frictional Games~Amnesia: The Dark Descent^Kinetic Games~Phasmophobia^Behaviour~Dead by Daylight^Tarsier~Little Nightmares|Little Nightmares Enhanced^Other Studios~Lucius|Phantasmagoria|Deceit|Nocturnal|Overcome Your Fears|Devils & Demons"],
+["Survival & Sandbox","🏕️",140,"Techland~Dying Light^Endnight~The Forest^Redbeet~Raft^Re-Logic~Terraria^Chucklefish~Starbound|Starbound Unstable^Klei~Don't Starve Together^Dekovir~Craft The World^The Fun Pimps~7 Days to Die^RedRuins~Breathedge"],
+["Adventure","🗺️",48,"LucasArts~Escape from Monkey Island|The Curse of Monkey Island^Telltale~Tales of Monkey Island 1|Tales of Monkey Island 2|Tales of Monkey Island 3|Tales of Monkey Island 4|Tales of Monkey Island 5|Batman: The Telltale Series|Batman: The Enemy Within^Daedalic~Deponia|Deponia: The Complete Journey^Kheops / Microids~Dracula 2|Dracula 3|Dracula 4 and 5|Dracula: The Resurrection^Frogwares~Testament of Sherlock Holmes^Bad Viking~Strange Horticulture|Strange Antiquities^Other Studios~Costume Quest|Eastshade|Wanderstop|Gray Matter|AGON|Aeonic|Along the Edge|Aurora Hills|Arcis Ultima|AtmaSphere|The Berlin Apartment|The Girl in the Window|The Memory of Eldurim"],
+["Puzzle & Cozy","🧩",175,"Valve~Portal^Pine Studio~Escape Simulator|Escape Simulator 2^ustwo~Monument Valley|Monument Valley 2^Dogubomb~Blue Prince^Innersloth~Among Us^Curry Games~Liar's Bar^Other Studios~Cloud Gardens|Meta Sudoku|Cozy Solitaire|Cozy Sudoku|Pixel Puzzles: Japan|Pixel Puzzles Jigsaw|Chess Multiple Boards|cookies COOkies COOKIES|Reach the Moon!|Skilltree Saga|Snake Robot|SpearFrog|Car Parkour|Beach Gas Gas"],
+["Strategy & Sim","🏰",215,"Paradox~Crusader Kings III^Firaxis~Sid Meier's Civilization V^Blue Byte~The Settlers: Heritage of Kings^Nitro Games~East India Company Gold^Gaijin~War Thunder^Booming Games~Conqueror's Blade^Frozen District~House Flipper^ConcernedApe~Stardew Valley^Other Studios~Supermarket Together|Haunted House Renovator"],
+["Fighting & Racing","🥊",0,"Capcom~Street Fighter V|Ultra Street Fighter IV|Street Fighter 30th Anniversary|Capcom Arcade Stadium|Capcom Arcade 2nd Stadium^NetherRealm~Mortal Kombat 11^Bandai Namco~Tekken 7|Tekken 8^Arc System Works~BlazBlue: Calamity Trigger|Dragon Ball FighterZ^Spike Chunsoft~Dragon Ball: Sparking! Zero^Dimps~Dragon Ball Xenoverse^CyberConnect2~Naruto Shippuden: Ultimate Ninja Storm x3^Soleil~Naruto to Boruto: Shinobi Striker^Konami~Yu-Gi-Oh! Legacy of the Duelist^Electronic Arts~Need for Speed Heat|Need for Speed Most Wanted"],
+["Platformer & Indie","🌙",95,"Team Cherry~Hollow Knight^The Game Kitchen~Blasphemous^Frozenbyte~Trine|Trine 2^Capcom~Strider|Ghosts 'n Goblins Resurrection"],
+["MMO & Online","🌐",200,"Amazon Games~New World: Aeternum|New World Public Test Realm^CCP~EVE Online^Bethesda~Fallout 76|Fallout 76 PTS^Pearl Abyss~Black Desert^Hi-Rez~SMITE|SMITE Public Test^ZeniMax Online~The Elder Scrolls Online"]
+];
+const app=document.getElementById('app'),bg=document.getElementById('bg');
+const parse=d=>d.split('^').map(c=>{const[n,g]=c.split('~');return{n,g:g.split('|')}});
+G.forEach(g=>{g.co=parse(g[3]);g.cnt=g.co.reduce((a,c)=>a+c.g.length,0)});
+const total=G.reduce((a,g)=>a+g.cnt,0);
+const hs=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h};
+const grad=(h,s)=>`linear-gradient(${150+s%60}deg,hsl(${h},65%,42%),hsl(${(h+45)%360},70%,16%))`;
+function orbs(h){bg.innerHTML='';for(let i=0;i<4;i++){const o=document.createElement('div');o.className='orb';const z=260+i*60;o.style.cssText=`width:${z}px;height:${z}px;left:${i*28-5}%;top:${(i*37)%70}vh;background:hsl(${(h+i*50)%360},80%,50%);animation-delay:-${i*4}s;animation-duration:${14+i*3}s`;bg.appendChild(o)}}
+function home(){
+orbs(260);document.title='My Game Library';
+app.innerHTML=`<div class="hero"><p class="sub" style="letter-spacing:.3em;text-transform:uppercase;font-size:.8rem">Welcome to</p><h1>My Game<br>Library</h1><p class="sub">${total} games across ${G.length} genres. Pick a genre to explore the collection.</p></div><div class="tiles">${G.map((g,i)=>`<a class="tile" href="#${i}" style="background:${grad(g[2],i*13)};animation-delay:${.15+i*.07}s"><span class="em">${g[1]}</span><b>${g[0]}</b><span class="n">${g.cnt} games</span></a>`).join('')}</div><footer>Made by Stevie</footer>`;
+window.scrollTo(0,0)}
+function genre(i){
+const g=G[i];orbs(g[2]);document.title=g[0]+' - My Game Library';
+const nx=(i+1)%G.length;
+app.innerHTML=`<a class="back" href="#">&larr; All genres</a><div class="hero" style="padding:3vh 0 0"><div style="font-size:3.4rem">${g[1]}</div><h1 style="background-image:linear-gradient(90deg,hsl(${g[2]},90%,65%),hsl(${(g[2]+60)%360},90%,70%),hsl(${g[2]},90%,65%))">${g[0]}</h1><p class="sub">${g.cnt} games from ${g.co.length} ${g.co.length>1?'studios':'studio'}</p></div>`+
+g.co.map(c=>`<h2 style="--c:hsl(${g[2]},80%,60%)">${c.n}</h2><div class="grid">${c.g.map(t=>{const h=hs(t),hue=(g[2]+(h%70)-25+360)%360;return`<div class="card" style="background:${grad(hue,h)}"><span class="L">${t.replace(/^(The|A) /,'')[0].toUpperCase()}</span><div class="t">${t}</div><div class="g">${c.n}</div></div>`}).join('')}</div>`).join('')+
+`<p style="margin-top:50px"><a class="back" href="#${nx}">Next: ${G[nx][0]} &rarr;</a></p>`;
+window.scrollTo(0,0);
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,d=el.classList.contains('card')?(Array.from(el.parentNode.children).indexOf(el)%6)*70:0;setTimeout(()=>el.classList.add('in'),d);io.unobserve(el)}}),{threshold:.1});
+app.querySelectorAll('.card,h2').forEach(el=>io.observe(el));
+app.querySelectorAll('.card').forEach(c=>{c.onmousemove=e=>{const r=c.getBoundingClientRect();c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*14+'deg');c.style.setProperty('--rx',-((e.clientY-r.top)/r.height-.5)*14+'deg')};c.onmouseleave=()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')}})}
+function route(){const i=parseInt(location.hash.slice(1));app.style.animation='none';app.offsetHeight;app.style.animation='';G[i]?genre(i):home()}
+addEventListener('hashchange',route);route();
+</script>
+</body>
+</html>
